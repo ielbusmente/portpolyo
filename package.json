@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Daniel Busmente <ieljbusmente@gmail.com>",
   "dependencies": {
+    "bootstrap": "^5.2.0",
     "firebase": "^9.9.2",
     "gatsby": "^4.20.0",
     "gatsby-plugin-image": "^2.20.0",
@@ -14,6 +15,7 @@
     "gatsby-transformer-sharp": "^4.20.0",
     "prop-types": "^15.8.1",
     "react": "^18.1.0",
+    "react-bootstrap": "^2.5.0",
     "react-dom": "^18.1.0"
   },
   "devDependencies": {

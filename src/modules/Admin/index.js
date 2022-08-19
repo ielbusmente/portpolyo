@@ -1,6 +1,7 @@
 import React, { useRef, useContext, useState, useEffect } from "react"
 import { useNavigate } from "@reach/router"
 import { useFuncs, useVals } from "../../contexts/ContextProvider"
+import { add_log } from "../../utils/logs"
 
 export default function Admin() {
   const email_ref = useRef()
@@ -11,14 +12,19 @@ export default function Admin() {
   const navigate = useNavigate()
   const handle_login = async e => {
     e.preventDefault()
+    let log
     try {
       // TODO:
       // set loading true
       await login(email_ref.current.value, pass_ref.current.value)
+      log = `${email_ref.current.value} logged in successfully.`
+      add_log({ log, date: new Date(Date.now()) })
       navigate("/admin/dashboard")
     } catch (e) {
       console.error(e)
       console.error(e.message)
+      log = `${email_ref.current.value} failed to log in.`
+      add_log({ log, date: new Date(Date.now()) })
     }
     // TODO:
     // set loading false
