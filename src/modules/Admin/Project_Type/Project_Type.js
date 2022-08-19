@@ -23,7 +23,7 @@ function Project_Type() {
 
   const { current_user } = useVals()
   const navigate = useNavigate()
-//  add project type to db and logs action
+  //  add project type to db and logs action
   async function handle_submit(e) {
     e.preventDefault()
     setloading(true)
@@ -48,12 +48,11 @@ function Project_Type() {
     }
   }
   //  updates a  project type in db and logs action
-  function handle_submit_edit(e) {
+  async function handle_submit_edit(e) {
     e.preventDefault()
     setloading(true)
     let log
     try {
-      console.log(project_type_to_edit.id)
       await update_proj_type(project_type_to_edit.id, {
         name: project_type_to_edit.name.trim(),
       })
@@ -76,7 +75,7 @@ function Project_Type() {
     setopen_add_modal(false)
     setproject_type({ name: "" })
   }
-//   Opens the Edit Modal having the details of item matching id
+  //   Opens the Edit Modal having the details of item matching id
   function handle_edit(id) {
     const target_project_type = project_types.filter(pt => pt.id === id)
     setproject_type_to_edit(target_project_type[0])
@@ -88,8 +87,18 @@ function Project_Type() {
   }
   async function handle_delete(id) {
     setloading(true)
-    await delete_proj_type(id)
-    setloading(false)
+    let log
+    try {
+      await delete_proj_type(id)
+      log = `${current_user.email} deleted Project Type with the id of ${id}.`
+      add_log({ log, date: new Date(Date.now()) })
+      setloading(false)
+    } catch (e) {
+      console.error(e)
+      log = `${current_user.email} failed to delete Project Type with the id of ${id}.`
+      add_log({ log, date: new Date(Date.now()) })
+      setloading(false)
+    }
   }
 
   useEffect(() => {

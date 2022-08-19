@@ -52,3 +52,11 @@
   max-width: none;
   line-height: var(--line-height-loose);
 }
+
+button.table_data {
+  border: none;
+  background: transparent;
+  width: 100%;
+  padding: 10px 0;
+  text-align: left;
+}

@@ -2,10 +2,12 @@ import { Link } from "gatsby"
 import React, { useEffect, useState } from "react"
 import { listen_for_updates } from "../../../utils/firebase"
 import { useNavigate } from "@reach/router"
+import { useVals } from "../../../contexts/ContextProvider"
 
 function Projects() {
   const [projects, setprojects] = useState([])
   const [loading, setloading] = useState(false)
+  const { current_user } = useVals()
   const navigate = useNavigate()
 
   async function handle_delete(id) {

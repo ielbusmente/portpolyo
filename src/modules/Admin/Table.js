@@ -1,6 +1,7 @@
 import React from "react"
 import React_Table from "react-bootstrap/Table"
 import { Button } from "react-bootstrap"
+import * as styles from "../../components/index.module.css"
 
 export default function Table({
   table_columns,
@@ -11,7 +12,7 @@ export default function Table({
   handle_edit,
 }) {
   return (
-    <React_Table striped bordered hover>
+    <React_Table bordered hover>
       <thead>
         <tr>
           {header.forEach(h => (
@@ -31,10 +32,19 @@ export default function Table({
                 <tr key={p_i}>
                   <td>{p_i + 1}</td>
                   <td>
-                    <button onClick={() => handle_edit(p.id)}>{p.name}</button>
+                    <button
+                      onClick={() => handle_edit(p.id)}
+                      className={styles.table_data}
+                    >
+                      {p.name}
+                    </button>
                   </td>
                   <td>
-                    <Button type="button" onClick={() => handle_delete(p.id)}>
+                    <Button
+                      variant="outline-danger"
+                      type="button"
+                      onClick={() => handle_delete(p.id)}
+                    >
                       Delete
                     </Button>
                   </td>
