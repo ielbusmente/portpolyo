@@ -1,37 +1,17 @@
 import * as React from "react"
 import { Link } from "gatsby"
 // import { StaticImage } from "gatsby-plugin-image"
-
+import "../components/home.css"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import * as styles from "../components/index.module.css"
-
-// const links = [
-//   {
-//     text: "Tutorial",
-//     url: "https://www.gatsbyjs.com/docs/tutorial",
-//     description:
-//       "A great place to get started if you're new to web development. Designed to guide you through setting up your first Gatsby site.",
-//   },
-//   {
-//     text: "Examples",
-//     url: "https://github.com/gatsbyjs/gatsby/tree/master/examples",
-//     description:
-//       "A collection of websites ranging from very basic to complex/complete that illustrate how to accomplish specific tasks within your Gatsby sites.",
-//   },
-//   {
-//     text: "Plugin Library",
-//     url: "https://www.gatsbyjs.com/plugins",
-//     description:
-//       "Learn how to add functionality and customize your Gatsby site or app with thousands of plugins built by our amazing developer community.",
-//   },
-//   {
-//     text: "Build and Host",
-//     url: "https://www.gatsbyjs.com/cloud",
-//     description:
-//       "Now you’re ready to show the world! Give your Gatsby site superpowers: Build and host on Gatsby Cloud. Get started for free!",
-//   },
-// ]
+// three
+import { Canvas, useFrame } from "react-three-fiber"
+import { a } from "react-spring/three"
+// Deai - R3F
+import { MeshWobbleMaterial, OrbitControls } from "@react-three/drei"
+import { Modal, Button } from "react-bootstrap"
+import { useFuncs } from "../contexts/ContextProvider"
 const LINKS = [
   {
     text: "Tutorial",
@@ -41,47 +21,57 @@ const LINKS = [
   },
 ]
 
-// const samplePageLinks = [
-//   {
-//     text: "Page 2",
-//     url: "page-2",
-//     badge: false,
-//     description:
-//       "A simple example of linking to another page within a Gatsby site",
-//   },
-//   { text: "TypeScript", url: "using-typescript" },
-//   { text: "Server Side Rendering", url: "using-ssr" },
-//   { text: "Deferred Static Generation", url: "using-dsg" },
-// ]
+const SpinningMesh = ({
+  position,
+  color,
+  speed,
+  title,
+  settitle,
+  setopen,
+  rotation_speed,
+}) => {
+  //ref to target the mesh
+  const mesh = React.useRef()
 
-// const moreLinks = [
-//   { text: "Join us on Discord", url: "https://gatsby.dev/discord" },
-//   {
-//     text: "Documentation",
-//     url: "https://gatsbyjs.com/docs/",
-//   },
-//   {
-//     text: "Starters",
-//     url: "https://gatsbyjs.com/starters/",
-//   },
-//   {
-//     text: "Showcase",
-//     url: "https://gatsbyjs.com/showcase/",
-//   },
-//   {
-//     text: "Contributing",
-//     url: "https://www.gatsbyjs.com/contributing/",
-//   },
-//   { text: "Issues", url: "https://github.com/gatsbyjs/gatsby/issues" },
-// ]
+  //useFrame allows us to re-render/update rotation on each frame
+  useFrame(
+    () => (mesh.current.rotation.x = mesh.current.rotation.y += rotation_speed)
+  )
 
-// const utmParameters = `?utm_source=starter&utm_medium=start-page&utm_campaign=default-starter`
+  return (
+    <a.mesh
+      position={position}
+      ref={mesh}
+      scale={[0.5, 0.5, 0.5]}
+      onClick={() => {
+        setopen(true)
+        settitle(title)
+      }}
+    >
+      <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
+      <MeshWobbleMaterial
+        color={color}
+        speed={speed}
+        attach="material"
+        factor={0.6}
+      />
+    </a.mesh>
+  )
+}
 
-const IndexPage = () => (
-  <Layout>
-    <Seo title="Home" />
-    <Link to="/admin">Admin</Link>
-    <div className={styles.textCenter}>
+const IndexPage = () => {
+  const [open, setopen] = React.useState(false)
+  const [title, settitle] = React.useState("")
+  const { setcurrent_page } = useFuncs()
+
+  React.useEffect(() => {
+    setcurrent_page("home")
+  }, [setcurrent_page])
+
+  return (
+    <Layout>
+      <Seo title="Home" />
+      <Link to="/admin">Admin</Link>
       {/* <StaticImage
         src="../images/example.png"
         loading="eager"
@@ -91,42 +81,90 @@ const IndexPage = () => (
         alt=""
         style={{ marginBottom: `var(--space-3)` }}
       /> */}
-      <h1>
-        Welcome to the <b>Home Page</b>
-      </h1>
-      {/* <p className={styles.intro}>
-        <b>Example pages:</b>{" "}
-        {samplePageLinks.map((link, i) => (
-          <React.Fragment key={link.url}>
-            <Link to={link.url}>{link.text}</Link>
-            {i !== samplePageLinks.length - 1 && <> · </>}
-          </React.Fragment>
-        ))}
-        <br />
-        Edit <code>src/pages/index.js</code> to update this page.
-      </p> */}
-    </div>
-    <ul className={styles.list}>
-      {/* {links.map(link => (
-        <li key={link.url} className={styles.listItem}>
-          <a
-            className={styles.listItemLink}
-            href={`${link.url}${utmParameters}`}
+
+      <h1>Projects</h1>
+      {/* <div className="projects-canvas">
+        <Canvas colorManagement camera={{ position: [5, 2, 10], fov: 60 }}>
+        
+          <ambientLight intensity={0.3} /> 
+          <pointLight position={[-10, 0, -20]} intensity={0.5} />
+          <pointLight position={[0, -10, 0]} intensity={1.5} />
+          <group>
+            <SpinningMesh
+              position={[0, 2, 0]}
+              color="lightblue"
+              speed={2}
+              title={`lightblue`}
+              settitle={settitle}
+              setopen={setopen}
+              rotation_speed={0.01}
+            />
+            <SpinningMesh
+              position={[1, 1, 1]}
+              color="pink"
+              speed={6}
+              title={`pink`}
+              settitle={settitle}
+              setopen={setopen}
+              rotation_speed={0.02}
+            />
+            <SpinningMesh
+              position={[0, 3, 2]}
+              color="yellow"
+              speed={3}
+              title={`yellow`}
+              settitle={settitle}
+              setopen={setopen}
+              rotation_speed={0.03}
+            />
+            <SpinningMesh
+              position={[-1, 3, 1]}
+              color="violet"
+              speed={3}
+              title={`violet`}
+              settitle={settitle}
+              setopen={setopen}
+              rotation_speed={0.03}
+            />
+            <SpinningMesh
+              position={[-2, 1, 0]}
+              color="green"
+              speed={1}
+              title={`green`}
+              settitle={settitle}
+              setopen={setopen}
+              rotation_speed={0.001}
+            />
+          </group> 
+          <OrbitControls />
+        </Canvas>
+      </div> */}
+
+      <Modal show={open}>
+        <Modal.Header
+          style={{ background: "#000" }}
+          className="text-center flex-column p-4"
+        >
+          <h2 className="text-white p-0 m-0">{"Add Project Type"}</h2>
+        </Modal.Header>
+        <Modal.Body>
+          <h1>{title}</h1>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button
+            onClick={() => {
+              setopen(false)
+              settitle("")
+            }}
           >
-            {link.text} ↗
-          </a>
-          <p className={styles.listItemDescription}>{link.description}</p>
-        </li>
-      ))} */}
-    </ul>
-    {/* {moreLinks.map((link, i) => (
-      <React.Fragment key={link.url}>
-        <a href={`${link.url}${utmParameters}`}>{link.text}</a>
-        {i !== moreLinks.length - 1 && <> · </>}
-      </React.Fragment>
-    ))} */}
-  </Layout>
-)
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </Layout>
+  )
+}
 
 /**
  * Head export to define metadata for the page

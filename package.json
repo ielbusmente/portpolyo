@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Daniel Busmente <ieljbusmente@gmail.com>",
   "dependencies": {
+    "@react-three/drei": "^9.23.1",
     "bootstrap": "^5.2.0",
     "firebase": "^9.9.2",
     "gatsby": "^4.20.0",
@@ -16,7 +17,10 @@
     "prop-types": "^15.8.1",
     "react": "^18.1.0",
     "react-bootstrap": "^2.5.0",
-    "react-dom": "^18.1.0"
+    "react-dom": "^18.1.0",
+    "react-three-fiber": "^6.0.13",
+    "three": "^0.143.0",
+    "react-spring": "^8.0.27"
   },
   "devDependencies": {
     "prettier": "^2.7.1"

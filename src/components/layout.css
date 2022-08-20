@@ -31,7 +31,8 @@ html {
   font: sans-serif;
   font-size: var(--font-md);
   line-height: var(--line-height-normal);
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
+  min-height: 100vh;
 }
 body {
   -moz-osx-font-smoothing: grayscale;
@@ -221,4 +222,12 @@ pre code:after,
 pre tt:before,
 pre tt:after {
   content: none;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  width: 100vw;
+  padding-bottom: 20px;
 }

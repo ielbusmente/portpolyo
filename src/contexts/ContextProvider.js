@@ -8,6 +8,7 @@ export const useVals = () => useContext(GatsbyContextState)
 export const useFuncs = () => useContext(GatsbyContextAction)
 
 function ContextProvider({ children }) {
+  const [current_page, setcurrent_page] = useState()
   const [current_user, setcurrent_user] = useState()
   const [webloading, setwebloading] = useState(true)
 
@@ -33,10 +34,12 @@ function ContextProvider({ children }) {
 
   const states = {
     current_user,
+    current_page,
   }
   const funcs = {
     login,
     logout,
+    setcurrent_page,
   }
 
   useEffect(

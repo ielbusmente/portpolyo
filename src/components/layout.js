@@ -11,7 +11,8 @@ import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
 import "./layout.css"
-import Nav from "./Nav"
+import Nav from "./Nav/Nav"
+import { Container } from "react-bootstrap"
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -31,11 +32,11 @@ const Layout = ({ children }) => {
       <div
         style={{
           margin: `0 auto`,
-          maxWidth: `var(--size-content)`,
-          padding: `var(--size-gutter)`,
+          // maxWidth: `var(--size-content)`,
+          // padding: `var(--size-gutter)`,
         }}
       >
-        <main>{children}</main>
+        <Container>{children}</Container>
         <footer
           style={{
             marginTop: `var(--space-5)`,
