@@ -27,23 +27,24 @@ function Project_Type() {
   async function handle_submit(e) {
     e.preventDefault()
     setloading(true)
-    let log
     try {
       await add_proj_type({ name: project_type.name.trim() })
-      log = `${
-        current_user.email
-      } added ${project_type.name.trim()} as a Project Type.`
 
-      add_log({ log, date: new Date(Date.now()) })
+      add_log({
+        log: `${
+          current_user.email
+        } added ${project_type.name.trim()} as a Project Type.`,
+      })
       setloading(false)
       setopen_add_modal(false)
       setproject_type({ name: "" })
     } catch (e) {
       console.error(e)
-      log = `${
-        current_user.email
-      } failed to add ${project_type.name.trim()} as a Project Type.`
-      add_log({ log, date: new Date(Date.now()) })
+      add_log({
+        log: `${
+          current_user.email
+        } failed to add ${project_type.name.trim()} as a Project Type.`,
+      })
       setloading(false)
     }
   }
@@ -51,23 +52,21 @@ function Project_Type() {
   async function handle_submit_edit(e) {
     e.preventDefault()
     setloading(true)
-    let log
     try {
       await update_proj_type(project_type_to_edit.id, {
         name: project_type_to_edit.name.trim(),
       })
-      log = `${
-        current_user.email
-      } updated ${project_type_to_edit.name.trim()} Project Type.`
-
-      add_log({ log, date: new Date(Date.now()) })
+      add_log({
+        log: `${
+          current_user.email
+        } updated ${project_type_to_edit.name.trim()} Project Type.`,
+      })
       setloading(false)
       setopen_edit_modal(false)
       setproject_type_to_edit(null)
     } catch (e) {
       console.error(e)
-      log = `${current_user.email} failed to update Project Type.`
-      add_log({ log, date: new Date(Date.now()) })
+      add_log({ log: `${current_user.email} failed to update Project Type.` })
       setloading(false)
     }
   }
@@ -87,16 +86,17 @@ function Project_Type() {
   }
   async function handle_delete(id) {
     setloading(true)
-    let log
     try {
       await delete_proj_type(id)
-      log = `${current_user.email} deleted Project Type with the id of ${id}.`
-      add_log({ log, date: new Date(Date.now()) })
+      add_log({
+        log: `${current_user.email} deleted Project Type with the id of ${id}.`,
+      })
       setloading(false)
     } catch (e) {
       console.error(e)
-      log = `${current_user.email} failed to delete Project Type with the id of ${id}.`
-      add_log({ log, date: new Date(Date.now()) })
+      add_log({
+        log: `${current_user.email} failed to delete Project Type with the id of ${id}.`,
+      })
       setloading(false)
     }
   }

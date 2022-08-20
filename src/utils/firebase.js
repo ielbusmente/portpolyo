@@ -23,7 +23,7 @@ export const db = {
   skills: fs.collection("skills"),
   skill_types: fs.collection("skill_types"),
   proj_types: fs.collection("proj_types"),
-  // get_server_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+  get_server_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
 }
 
 // use firebase authentication

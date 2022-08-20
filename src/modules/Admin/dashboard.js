@@ -10,19 +10,16 @@ export default function Dashboard() {
 
   async function handle_log_out(e) {
     e.preventDefault()
-    let log
     try {
       // TODO:
       // set loading true
       await logout()
-      log = `${current_user.email} logged out successfully.`
-      add_log({ log, date: new Date(Date.now()) })
+      add_log({ log: `${current_user.email} logged out successfully.` })
       navigate("/admin")
     } catch (e) {
       console.error(e)
       console.error(e.message)
-      log = `${current_user.email} failed to log out.`
-      add_log({ log, date: new Date(Date.now()) })
+      add_log({ log: `${current_user.email} failed to log out.` })
     }
   }
   // redirect to login if there is no current signed in user

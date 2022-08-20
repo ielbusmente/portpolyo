@@ -1,8 +1,8 @@
 import { db } from "./firebase"
 
-export async function add_log({ log, date }) {
+export async function add_log({ log }) {
   await db.logs
-    .add({ log, date })
+    .add({ log, date: Date.parse(Date(db.get_server_timestamp)) })
     .then(() => console.log(`Logged.`))
     .catch(e => console.error(`Logging failed. ${e}`))
 }
