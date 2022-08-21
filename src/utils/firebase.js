@@ -41,6 +41,12 @@ export function listen_for_updates(setter, collection) {
     case "proj_types":
       database = db.proj_types
       break
+    case "skill_types":
+      database = db.skill_types
+      break
+    case "skills":
+      database = db.skills
+      break
     default:
       console.error(`Something went wrong in listening for updates.`)
       break

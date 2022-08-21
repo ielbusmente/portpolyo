@@ -39,6 +39,16 @@ export default function Table({
                       {p.name}
                     </button>
                   </td>
+                  {table_columns > 3 && (
+                    <td>
+                      <button
+                        onClick={() => handle_edit(p.id)}
+                        className={styles.table_data}
+                      >
+                        {p.type_string}
+                      </button>
+                    </td>
+                  )}
                   <td>
                     <Button
                       variant="outline-danger"
