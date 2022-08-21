@@ -12,21 +12,16 @@ import { a } from "react-spring/three"
 import { MeshWobbleMaterial, OrbitControls } from "@react-three/drei"
 import { Modal, Button } from "react-bootstrap"
 import { useFuncs } from "../contexts/ContextProvider"
-const LINKS = [
-  {
-    text: "Tutorial",
-    url: "page-2",
-    description:
-      "A great place to get started if you're new to web development. Designed to guide you through setting up your first Gatsby site.",
-  },
-]
+import { listen_for_updates } from "../utils/firebase"
+import { points } from "../utils/plane-positioning"
+import Intro from "../components/Intro/Intro"
 
 const SpinningMesh = ({
   position,
   color,
   speed,
-  title,
-  settitle,
+  project,
+  setproject,
   setopen,
   rotation_speed,
 }) => {
@@ -44,8 +39,9 @@ const SpinningMesh = ({
       ref={mesh}
       scale={[0.5, 0.5, 0.5]}
       onClick={() => {
+        // console.log(project)
         setopen(true)
-        settitle(title)
+        setproject(project)
       }}
     >
       <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
@@ -61,17 +57,32 @@ const SpinningMesh = ({
 
 const IndexPage = () => {
   const [open, setopen] = React.useState(false)
-  const [title, settitle] = React.useState("")
+  const [project, setproject] = React.useState("")
   const { setcurrent_page } = useFuncs()
 
+  const [projects, setprojects] = React.useState([])
+  const [loading, setloading] = React.useState(false)
+
+  function format_date(date) {
+    const new_date = new Date(date).toDateString().split(" ").slice(1)
+    new_date.splice(1, 1)
+    return new_date.join(" ")
+  }
   React.useEffect(() => {
     setcurrent_page("home")
   }, [setcurrent_page])
 
+  React.useEffect(() => {
+    setloading(true)
+    listen_for_updates(setprojects, "projects")
+    setloading(false)
+  }, [])
+
   return (
     <Layout>
       <Seo title="Home" />
-      <Link to="/admin">Admin</Link>
+      <Intro />
+      {/* <Link to="/admin">Admin</Link> */}
       {/* <StaticImage
         src="../images/example.png"
         loading="eager"
@@ -81,87 +92,61 @@ const IndexPage = () => {
         alt=""
         style={{ marginBottom: `var(--space-3)` }}
       /> */}
-
-      <h1>Projects</h1>
-      {/* <div className="projects-canvas">
-        <Canvas colorManagement camera={{ position: [5, 2, 10], fov: 60 }}>
-        
-          <ambientLight intensity={0.3} /> 
-          <pointLight position={[-10, 0, -20]} intensity={0.5} />
-          <pointLight position={[0, -10, 0]} intensity={1.5} />
-          <group>
-            <SpinningMesh
-              position={[0, 2, 0]}
-              color="lightblue"
-              speed={2}
-              title={`lightblue`}
-              settitle={settitle}
-              setopen={setopen}
-              rotation_speed={0.01}
-            />
-            <SpinningMesh
-              position={[1, 1, 1]}
-              color="pink"
-              speed={6}
-              title={`pink`}
-              settitle={settitle}
-              setopen={setopen}
-              rotation_speed={0.02}
-            />
-            <SpinningMesh
-              position={[0, 3, 2]}
-              color="yellow"
-              speed={3}
-              title={`yellow`}
-              settitle={settitle}
-              setopen={setopen}
-              rotation_speed={0.03}
-            />
-            <SpinningMesh
-              position={[-1, 3, 1]}
-              color="violet"
-              speed={3}
-              title={`violet`}
-              settitle={settitle}
-              setopen={setopen}
-              rotation_speed={0.03}
-            />
-            <SpinningMesh
-              position={[-2, 1, 0]}
-              color="green"
-              speed={1}
-              title={`green`}
-              settitle={settitle}
-              setopen={setopen}
-              rotation_speed={0.001}
-            />
-          </group> 
-          <OrbitControls />
-        </Canvas>
-      </div> */}
-
-      <Modal show={open}>
-        <Modal.Header
-          style={{ background: "#000" }}
-          className="text-center flex-column p-4"
-        >
-          <h2 className="text-white p-0 m-0">{"Add Project Type"}</h2>
-        </Modal.Header>
-        <Modal.Body>
-          <h1>{title}</h1>
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button
-            onClick={() => {
-              setopen(false)
-              settitle("")
-            }}
+      <h1>Check out my Projects!</h1>
+      {loading ? (
+        <>Loading</>
+      ) : (
+        <div className="projects-canvas" title="CLick 'em!">
+          <Canvas colorManagement camera={{ position: [5, 2, 10], fov: 60 }}>
+            <ambientLight intensity={0.3} />
+            <pointLight position={[-10, 0, -20]} intensity={0.5} />
+            <pointLight position={[0, -10, 0]} intensity={1.5} />
+            <group>
+              {projects.map((pro, pro_i) => (
+                <SpinningMesh
+                  position={points[pro_i]}
+                  color={pro.color}
+                  speed={Math.floor(Math.random() * 3)}
+                  project={pro}
+                  setproject={setproject}
+                  setopen={setopen}
+                  rotation_speed={Math.random() * 0.03}
+                />
+              ))}
+            </group>
+            <OrbitControls />
+          </Canvas>
+        </div>
+      )}
+      {project && (
+        <Modal show={open}>
+          <Modal.Header
+            className={`${project.color}-modal-header text-center flex-column p-4`}
           >
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+            <h2 className="text-white p-0 m-0">{project.name}</h2>
+          </Modal.Header>
+          <Modal.Body>
+            {/* <h1>{project.name}</h1> */}
+            <h5>{project.description}</h5>
+            <h6>{format_date(project.date)}</h6>
+            <p>{project.details}</p>
+            {/* {project.link} */}
+            {project.link && <a href={`${project.link}`}>Take a peek</a>}
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button
+              onClick={() => {
+                setopen(false)
+                setproject(null)
+              }}
+              variant={`outline-dark`}
+            >
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
     </Layout>
   )
 }

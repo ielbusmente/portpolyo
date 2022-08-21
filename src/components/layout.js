@@ -43,7 +43,11 @@ const Layout = ({ children }) => {
             fontSize: `var(--font-sm)`,
           }}
         >
-          © {new Date().getFullYear()} &middot; Built with
+          © 2022 &middot;{" "}
+          <a href="https://www.flaticon.com/free-icons/owl" title="owl icons">
+            Owl icons created by Freepik - Flaticon
+          </a>{" "}
+          <br />© 2022 &middot; Built with
           {` `}
           <a href="https://www.gatsbyjs.com">Gatsby</a>
         </footer>

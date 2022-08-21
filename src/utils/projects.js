@@ -8,9 +8,10 @@ export async function add_project({
   link,
   skills,
   proj_type,
+  color,
 }) {
   await db.projects
-    .add({ name, date, details, description, link, skills, proj_type })
+    .add({ name, date, details, description, link, skills, proj_type, color })
     .then(() => console.log(`Project added.`))
     .catch(e => console.error(`Failed to add the project. ${e}`))
 }

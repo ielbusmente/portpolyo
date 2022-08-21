@@ -44,6 +44,7 @@ function Projects() {
   //       "ZxmXXECtrR0YCchfGTqC", //heroku
   //     ],
   //     proj_type: "gavifsdMTdJJxd5yRJ4l", //major req
+  //     color: "yellow",
   //   },
   //   {
   //     name: "SleepyPH Web App",
@@ -63,6 +64,7 @@ function Projects() {
   //       "eq66xDe1uHidAZa4QAHJ", //000webhostapp
   //     ],
   //     proj_type: "gavifsdMTdJJxd5yRJ4l", //major req
+  //     color: "pink",
   //   },
   // ]
 
@@ -116,6 +118,7 @@ function Projects() {
         link: project.link.trim(),
         projects: project.projects,
         proj_type: project.proj_type,
+        color: project.color,
       })
 
       add_log({
