@@ -1,14 +1,14 @@
 import React from "react"
 import { Router } from "@reach/router"
-import Login from "../modules/Admin/index"
-import Dashboard from "../modules/Admin/Dashboard.js"
-import Logs from "../modules/Admin/Logs/Logs.js"
-import Projects from "../modules/Admin/Projects/Projects.js"
-import Project_Type from "../modules/Admin/Project_Type/Project_Type.js"
+import Login from "./Admin/index"
+import Dashboard from "./Admin/Dashboard.js.js"
+import Logs from "./Admin/Logs/Logs.js.js"
+import Projects from "./Admin/Projects/Projects.js.js"
+import Project_Type from "./Admin/Project_Type/Project_Type.js"
 import "bootstrap"
 import "bootstrap/dist/css/bootstrap.min.css"
-import Skill_Types from "../modules/Admin/Skill_Types/Skill_Types.js"
-import Skills from "../modules/Admin/Skills/Skills.js"
+import Skill_Types from "./Admin/Skill_Types/Skill_Types.js"
+import Skills from "./Admin/Skills/Skills.js"
 
 export default function Site() {
   return (

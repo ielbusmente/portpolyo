@@ -1,6 +1,0 @@
-import { useNavigate } from "@reach/router"
-const navigate = useNavigate()
-// redirect to login if there is no current signed in user
-useEffect(() => {
-  if (!current_user) navigate("/admin")
-}, [current_user])
